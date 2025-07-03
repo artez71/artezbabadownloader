@@ -22,7 +22,7 @@
       }
 
       try {
-        const res = await fetch('https://artezbaba-backend-production.up.railway.app/get_video_url', {
+        const res = await fetch('https://artezbaba-backend-production.up.railway.app/get_video', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: link })
@@ -46,7 +46,7 @@
         URL.revokeObjectURL(blobUrl);
       } catch (error) {
         console.error(error);
-        alert('Hata olustu dost bana bildir .');
+        alert('Hata olustu dost bana bildir.');
       }
     });
   </script>
