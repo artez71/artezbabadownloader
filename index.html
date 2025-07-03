@@ -22,7 +22,7 @@
       }
 
       try {
-        const res = await fetch('http://127.0.0.1:8000/get_video', {
+        const res = await fetch('https://artezbaba-backend-production.up.railway.app/get_video_url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: link })
