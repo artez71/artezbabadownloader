@@ -4,10 +4,19 @@
   <meta charset="UTF-8" />
   <title>ArtezBaba Video Downloader</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('background.png'); /* Aynı klasördeki resim */
+      background-size: cover;   /* Ekranı tam kaplar */
+      background-repeat: no-repeat; /* Tekrar etmez */
+      background-position: center;  /* Ortalar */
+    }
+  </style>
 </head>
-<body class="bg-gray-50 flex flex-col items-center justify-center h-screen">
-  <h1 class="text-2xl font-bold mb-4">ArtezBaba Video Downloader</h1>
-  <input id="linkInput" type="text" placeholder="Twitter(x) video linki yapistirin!" class="border p-2 rounded w-80 mb-4" />
+<body class="flex flex-col items-center justify-center h-screen">
+  <h1 class="text-2xl font-bold mb-4 text-white drop-shadow">ArtezBaba Video Downloader</h1>
+  <input id="linkInput" type="text" placeholder="Twitter(x) video linki yapıştırın!"
+    class="border p-2 rounded w-80 mb-4" />
   <button id="downloadBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Download</button>
 
   <script>
@@ -17,7 +26,7 @@
     btn.addEventListener('click', async () => {
       const link = input.value.trim();
       if (!link) {
-        alert('Please paste a link!');
+        alert('Link yapistir!');
         return;
       }
 
@@ -29,7 +38,7 @@
         });
 
         if (!res.ok) {
-          alert('Suanlık yalnızca Twitter linkleri');
+          alert('Şu anlık yalnızca Twitter linkleri');
           return;
         }
 
@@ -46,7 +55,7 @@
         URL.revokeObjectURL(blobUrl);
       } catch (error) {
         console.error(error);
-        alert('Hata olustu dost bana bildir.');
+        alert('Hata oluştu dost, bana bildir!');
       }
     });
   </script>
