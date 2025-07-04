@@ -2,22 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ArtezBaba Video Downloader</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-image: url('background.png'); /* Aynı klasördeki resim */
-      background-size: cover;   /* Ekranı tam kaplar */
-      background-repeat: no-repeat; /* Tekrar etmez */
-      background-position: center;  /* Ortalar */
+      background-image: url('background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
   </style>
 </head>
-<body class="flex flex-col items-center justify-center h-screen">
-  <h1 class="text-2xl font-bold mb-4 text-white drop-shadow">ArtezBaba Video Downloader</h1>
-  <input id="linkInput" type="text" placeholder="Twitter(x) video linki yapıştırın!"
-    class="border p-2 rounded w-80 mb-4" />
-  <button id="downloadBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Download</button>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+  <h1 class="text-2xl md:text-3xl font-bold mb-4 text-white drop-shadow">
+    ArtezBaba Video Downloader
+  </h1>
+  <input
+    id="linkInput"
+    type="text"
+    placeholder="Twitter(x) video linki yapıştırın!"
+    class="border p-2 rounded w-full max-w-md mb-4"
+  />
+  <button
+    id="downloadBtn"
+    class="bg-blue-600 text-white px-6 py-2 rounded w-full max-w-md"
+  >
+    Download
+  </button>
 
   <script>
     const btn = document.getElementById('downloadBtn');
@@ -31,11 +43,14 @@
       }
 
       try {
-        const res = await fetch('https://artezbaba-backend-production.up.railway.app/get_video', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: link })
-        });
+        const res = await fetch(
+          'https://artezbaba-backend-production.up.railway.app/get_video',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: link }),
+          }
+        );
 
         if (!res.ok) {
           alert('Şu anlık yalnızca Twitter linkleri');
