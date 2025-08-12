@@ -60,7 +60,7 @@
   <!-- Sidebar -->
   <div id="mySidebar" class="sidebar">
     <a class="closebtn" onclick="closeNav()">×</a>
-    <a onclick="openModal()">Hakkımızda</a>
+    <a onclick="openModal()">İletişim</a>
   </div>
 
   <!-- İçerik -->
@@ -101,9 +101,9 @@
   <div id="myModal" class="modal" role="dialog" aria-modal="true" aria-label="Hakkımızda">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()" aria-label="Kapat">&times;</span>
-      <h2 class="text-xl md:text-2xl font-bold mb-2 text-slate-100">Hakkımızda</h2>
+      <h2 class="text-xl md:text-2xl font-bold mb-2 text-slate-100">İletişim</h2>
       <p class="text-slate-300">
-        MRB Video Downloader, X (Twitter) videolarını kolayca indirmenizi sağlar.
+        MRB Video Downloader, X (Twitter) veya Tiktok videolarını kolayca indirmenizi sağlar.
       </p>
       <div class="flex items-center justify-center mt-4 gap-2 text-slate-300">
         <svg class="instagram-icon" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@
 
     btn.addEventListener('click', async () => {
       const link = input.value.trim();
-      if (!link) { alert('Lütfen bir X/Twitter video linki girin.'); return; }
+      if (!link) { alert('Lütfen bir X/Twitter veya Tiktok video linki girin.'); return; }
 
       setBusy(true, 'İndirme hazırlanıyor...');
       try {
@@ -152,7 +152,7 @@
         });
 
         if (!res.ok) {
-          let errText = 'İndirme başarısız. Şu an sadece X/Twitter linkleri destekleniyor olabilir.';
+          let errText = 'İndirme başarısız. Şu an sadece X/Twitter ve Tiktok linkleri destekleniyor.';
           try { const data = await res.json(); if (data && data.error) errText = data.error; } catch(_) {}
           alert(errText);
           setBusy(false);
@@ -172,7 +172,7 @@
         setBusy(false, 'İndirme tamamlandı.');
       } catch (err) {
         console.error(err);
-        alert('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+        alert('Bir hata oluştu. Lütfen bana bildir.');
         setBusy(false);
       }
     });
