@@ -6,8 +6,8 @@
   <title>MRB Video Downloader</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Backend adresini buradan yönet -->
-  <meta name="backend-url" content="https://artezbaba-backend-production.up.railway.app">
+  <!-- Backend adresi -->
+  <meta name="backend-url" content="https://artezbaba-backend-production-6eff.up.railway.app">
 
   <style>
     body {
@@ -30,9 +30,7 @@
 <body class="flex flex-col items-center justify-center min-h-screen p-4 relative">
 
   <!-- Navbar -->
-  <div class="absolute top-4 left-4 text-gray-100 text-3xl cursor-pointer z-50" onclick="openNav()">
-    ☰
-  </div>
+  <div class="absolute top-4 left-4 text-gray-100 text-3xl cursor-pointer z-50" onclick="openNav()">☰</div>
 
   <!-- Sidebar -->
   <div id="mySidebar" class="sidebar">
@@ -45,9 +43,7 @@
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
       <h2 class="text-2xl font-bold mb-2" style="color: #111;">Hakkımızda</h2>
-      <p class="text-gray-700">
-        MRB Video Downloader, X (Twitter) videolarını kolayca indirmenizi sağlar.
-      </p>
+      <p class="text-gray-700">MRB Video Downloader, X (Twitter) videolarını kolayca indirmenizi sağlar.</p>
       <div class="flex items-center justify-center mt-4">
         <svg class="instagram-icon" viewBox="0 0 24 24">
           <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 2a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1a.75.75 0 0 1 .75-.75zm-4 2.25a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
@@ -58,23 +54,11 @@
   </div>
 
   <!-- Main Content -->
-  <h1 class="text-2xl md:text-3xl font-bold mb-4 text-black drop-shadow">
-    MRB Video Downloader
-  </h1>
+  <h1 class="text-2xl md:text-3xl font-bold mb-4 text-black drop-shadow">MRB Video Downloader</h1>
 
   <div class="w-full max-w-md space-y-3">
-    <input
-      id="linkInput"
-      type="text"
-      placeholder="X (Twitter) video linkini yapıştırın"
-      class="border p-2 rounded w-full"
-    />
-    <button
-      id="downloadBtn"
-      class="bg-blue-600 text-white px-6 py-2 rounded w-full disabled:opacity-60"
-    >
-      İndir
-    </button>
+    <input id="linkInput" type="text" placeholder="X (Twitter) video linkini yapıştırın" class="border p-2 rounded w-full"/>
+    <button id="downloadBtn" class="bg-blue-600 text-white px-6 py-2 rounded w-full disabled:opacity-60">İndir</button>
     <p id="msg" class="text-sm text-gray-100 drop-shadow"></p>
   </div>
 
@@ -92,17 +76,13 @@
     const input = document.getElementById('linkInput');
     const msg = document.getElementById('msg');
 
-    function setBusy(isBusy, text=""){
-      btn.disabled = isBusy;
-      msg.textContent = text;
-    }
+    function setBusy(isBusy, text=""){ btn.disabled = isBusy; msg.textContent = text; }
 
     function getFilenameFromDisposition(disposition){
       if(!disposition) return null;
-      // filename="xyz.mp4" ya da filename*=UTF-8''xyz.mp4 olabilir
       const matchBasic = /filename="([^"]+)"/i.exec(disposition);
       if (matchBasic) return matchBasic[1];
-      const matchStar = /filename\*\=UTF-8''([^;]+)/i.exec(disposition);
+      const matchStar = /filename\*=UTF-8''([^;]+)/i.exec(disposition);
       if (matchStar) return decodeURIComponent(matchStar[1]);
       return null;
     }
@@ -120,12 +100,8 @@
         });
 
         if (!res.ok) {
-          // Backend JSON hata döndürüyorsa göster
           let errText = 'İndirme başarısız. Şu an sadece X/Twitter linkleri destekleniyor olabilir.';
-          try {
-            const data = await res.json();
-            if (data && data.error) errText = data.error;
-          } catch(_) {}
+          try { const data = await res.json(); if (data && data.error) errText = data.error; } catch(_) {}
           alert(errText);
           setBusy(false);
           return;
@@ -135,15 +111,11 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
 
-        // Dosya adını içerden almaya çalış
         const disp = res.headers.get('Content-Disposition');
         const fname = getFilenameFromDisposition(disp) || 'video.mp4';
 
-        a.href = url;
-        a.download = fname;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        a.href = url; a.download = fname;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
         URL.revokeObjectURL(url);
         setBusy(false, 'İndirme tamamlandı.');
       } catch (err) {
