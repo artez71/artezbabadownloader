@@ -4,16 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MRB Video Downloader</title>
-
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Modern fontlar -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-
-  <!-- Backend adresi -->
   <meta name="backend-url" content="https://artezbaba-backend-production-6eff.up.railway.app">
-
   <style>
     :root { --bg:#0b0f19; --bg-soft:#0f1526; }
     html, body { height: 100%; }
@@ -33,21 +26,16 @@
     .modal-content{background: linear-gradient(180deg, rgba(15,21,38,.9), rgba(9,13,26,.9));margin: 10% auto; padding: 20px; border: 1px solid rgba(148,163,184,.15);width: 88%; max-width: 480px; text-align: center; border-radius: 16px; color:#cbd5e1}
     .close-modal{color:#94a3b8;float:right;font-size:26px;font-weight:700;cursor:pointer}
     .close-modal:hover{color:#e5e7eb}
-    .instagram-icon{width:22px;height:22px;margin-right:8px;fill:#94a3b8}
   </style>
 </head>
 <body class="min-h-screen relative flex items-center justify-center px-4">
-
-  <!-- Navbar -->
   <button class="absolute top-4 left-4 text-slate-300 text-3xl cursor-pointer z-50" onclick="openNav()">☰</button>
 
-  <!-- Sidebar -->
   <div id="mySidebar" class="sidebar">
     <a class="closebtn" onclick="closeNav()">×</a>
     <a onclick="openModal()">İletişim</a>
   </div>
 
-  <!-- İçerik -->
   <main class="w-full max-w-xl">
     <h1 class="text-center mb-6">
       <span class="block text-4xl md:text-5xl font-bold bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
@@ -68,7 +56,6 @@
     </section>
   </main>
 
-  <!-- Modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -78,7 +65,6 @@
   </div>
 
   <script>
-    // Sidebar & Modal
     function openNav(){document.getElementById("mySidebar").style.width="260px";}
     function closeNav(){document.getElementById("mySidebar").style.width="0";}
     function openModal(){document.getElementById("myModal").style.display="block";}
@@ -103,13 +89,12 @@
       if(!link){alert('Lütfen bir link girin.');return;}
       setBusy(true,'İndirme hazırlanıyor...');
       try{
-        // --- JSON yerine FormData gönderiyoruz ---
         const fd = new FormData();
-        fd.append('url', link);
+        fd.append('url', link); // <-- Backend 'url' bekliyor
 
         const res=await fetch(`${backendURL}/get_video`,{
           method:'POST',
-          body: fd // Content-Type'ı tarayıcı kendi ayarlar
+          body: fd // Content-Type otomatik
         });
 
         if(!res.ok){
@@ -129,6 +114,9 @@
         document.body.appendChild(a);a.click();document.body.removeChild(a);
         URL.revokeObjectURL(url);
         setBusy(false,'İndirme tamamlandı.');
+
+        // iOS fallback (gerekirse):
+        setTimeout(()=>{ if(!document.hidden){ window.open(url,'_blank'); } }, 200);
       }catch(e){
         console.error(e);
         alert('Bir hata oluştu: ' + (e?.message || e));
