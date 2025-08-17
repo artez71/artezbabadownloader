@@ -103,14 +103,22 @@
       if(!link){alert('Lütfen bir link girin.');return;}
       setBusy(true,'İndirme hazırlanıyor...');
       try{
+        // --- JSON yerine FormData gönderiyoruz ---
+        const fd = new FormData();
+        fd.append('url', link);
+
         const res=await fetch(`${backendURL}/get_video`,{
           method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({url:link})
+          body: fd // Content-Type'ı tarayıcı kendi ayarlar
         });
+
         if(!res.ok){
           let err="İndirme başarısız.";
-          try{const d=await res.json();if(d.detail) err=d.detail;}catch{}
+          try{
+            const d=await res.json();
+            if (typeof d.detail === 'string') err = d.detail;
+            else if (Array.isArray(d.detail)) err = d.detail.map(x=>x?.msg || JSON.stringify(x)).join(' | ');
+          }catch{}
           alert(err);setBusy(false);return;
         }
         const blob=await res.blob();
@@ -121,7 +129,11 @@
         document.body.appendChild(a);a.click();document.body.removeChild(a);
         URL.revokeObjectURL(url);
         setBusy(false,'İndirme tamamlandı.');
-      }catch(e){console.error(e);alert('Bir hata oluştu.');setBusy(false);}
+      }catch(e){
+        console.error(e);
+        alert('Bir hata oluştu: ' + (e?.message || e));
+        setBusy(false);
+      }
     });
   </script>
 </body>
