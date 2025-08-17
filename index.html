@@ -123,7 +123,6 @@
         URL.revokeObjectURL(url);
         setBusy(false,'İndirme tamamlandı.');
 
-        setTimeout(()=>{ if(!document.hidden){ window.open(url,'_blank'); } }, 200);
       }catch(e){
         console.error(e);
         alert('Bir hata oluştu: ' + (e?.message || e));
