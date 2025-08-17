@@ -61,6 +61,12 @@
       <span class="close-modal" onclick="closeModal()">&times;</span>
       <h2 class="text-xl font-bold mb-2 text-slate-100">İletişim</h2>
       <p class="text-slate-300">MRB Video Downloader, X (Twitter) ve TikTok videolarını kolayca indirmenizi sağlar.</p>
+      
+      <!-- Instagram ekleme -->
+      <div class="mt-4 flex items-center justify-center space-x-2">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" class="w-6 h-6 text-pink-500"/>
+        <span class="text-slate-200">@mraufbayramm</span>
+      </div>
     </div>
   </div>
 
@@ -90,11 +96,11 @@
       setBusy(true,'İndirme hazırlanıyor...');
       try{
         const fd = new FormData();
-        fd.append('url', link); // <-- Backend 'url' bekliyor
+        fd.append('url', link); 
 
         const res=await fetch(`${backendURL}/get_video`,{
           method:'POST',
-          body: fd // Content-Type otomatik
+          body: fd 
         });
 
         if(!res.ok){
@@ -115,7 +121,6 @@
         URL.revokeObjectURL(url);
         setBusy(false,'İndirme tamamlandı.');
 
-        // iOS fallback (gerekirse):
         setTimeout(()=>{ if(!document.hidden){ window.open(url,'_blank'); } }, 200);
       }catch(e){
         console.error(e);
